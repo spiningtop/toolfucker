@@ -1,0 +1,69 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="de">\
+<head>\
+  <meta charset="UTF-8">\
+  <title>Werkzeug-Check-In</title>\
+  <style>\
+    body \{\
+      font-family: sans-serif;\
+      background: #f7f7f7;\
+      padding: 2rem;\
+      text-align: center;\
+    \}\
+    input, button \{\
+      padding: 0.5rem;\
+      font-size: 1rem;\
+      margin-top: 1rem;\
+      width: 80%;\
+      max-width: 300px;\
+    \}\
+    .msg \{\
+      margin-top: 2rem;\
+      font-weight: bold;\
+      color: green;\
+    \}\
+  </style>\
+</head>\
+<body>\
+  <h2>Werkzeug-Check-In</h2>\
+  <p id="toolName">Lade Werkzeugdaten...</p>\
+  <input type="text" id="nameInput" placeholder="Dein Name" />\
+  <button onclick="senden()">Eintragen</button>\
+\
+  <div class="msg" id="msg"></div>\
+\
+  <script>\
+    const urlParams = new URLSearchParams(window.location.search);\
+    const tool = urlParams.get('tool') || "Unbekanntes Werkzeug";\
+    const scriptURL = "https://script.google.com/macros/s/XYZ1234567890abcdefg/exec"; // <== HIER DEINE URL EINTRAGEN\
+\
+    document.getElementById("toolName").innerText = "Ger\'e4t: " + tool;\
+\
+    function senden() \{\
+      const name = document.getElementById("nameInput").value.trim();\
+      if (!name) \{\
+        alert("Bitte Namen eingeben!");\
+        return;\
+      \}\
+\
+      const fullURL = `$\{scriptURL\}?name=$\{encodeURIComponent(name)\}&tool=$\{encodeURIComponent(tool)\}&ua=iPhone`;\
+      fetch(fullURL)\
+        .then(response => response.text())\
+        .then(data => \{\
+          document.getElementById("msg").innerText = data;\
+        \})\
+        .catch(err => \{\
+          document.getElementById("msg").innerText = "Fehler beim Eintragen.";\
+        \});\
+    \}\
+  </script>\
+</body>\
+</html>\
+}
